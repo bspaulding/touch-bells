@@ -12,6 +12,16 @@ body {
 	background-image: url(./images/winter-bg.jpg);
 	background-position: center;
 	background-size: cover;
+	font-family: Helvetica, sans-serif;
+}
+
+#not-supported {
+	display: none;
+	text-align: center;
+	background: #FAFAFA;
+	padding: 22px;
+	line-height: 1.6em;
+	font-size: 21px;
 }
 
 .bells {

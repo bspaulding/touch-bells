@@ -4,7 +4,29 @@ import G from './samples/G.wav';
 import B from './samples/B.wav';
 
 const notes = { E, "Fsharp": Fsharp, G, B };
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const removeLoader = () => {
+	const loader = document.querySelector('#loading');
+	if (loader) {
+		document.body.removeChild(loader);
+	}
+};
+const showBells = () => {
+	const bells = document.querySelector('.bells');
+	if (bells) {
+		bells.style.display = 'flex';
+	}
+};
+const removeLoaderAndShowBells = () => {
+	removeLoader();
+	showBells();
+};
+const contextConstructor = window.AudioContext || window.webkitAudioContext;
+if (!contextConstructor) {
+	removeLoader();
+	document.querySelector('#not-supported').style.display = 'block';
+	return;
+}
+const audioContext = new contextConstructor();
 const importAudio = url =>
 	new Promise((resolve, reject) => {
 		let req = new XMLHttpRequest();
@@ -66,19 +88,8 @@ document.querySelectorAll('.bell').forEach(button => {
 		})
 	);
 });
-const removeLoader = () => {
-	const loader = document.querySelector('#loading');
-	if (loader) {
-		document.body.removeChild(loader);
-	}
-	const bells = document.querySelector('.bells');
-	if (bells) {
-		bells.style.display = 'flex';
-	}
-};
 Promise.all(loadingP)
-	.then(removeLoader)
+	.then(removeLoaderAndShowBells)
 	.catch(error => {
-		alert(error);
-		removeLoader()
+		removeLoader();
 	});
